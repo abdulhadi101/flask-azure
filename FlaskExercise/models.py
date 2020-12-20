@@ -25,13 +25,15 @@ class Animal(db.Model):
             fileExtension = filename.rsplit('.', 1)[1]
             randomFilename = str(uuid.uuid1())
             filename = randomFilename + '.' + fileExtension
+            
             try:
-                blob_client = blob_service.get_blob_client(container=blob_service, blob=filename)
+                blob_client = blob_service.get_blob_client(container=blob_container, blob=filename)
                 blob_client.upload_blob(file)
-                
-                if self.image_path:
+
+                if self.image_path: # Get rid of old image, since it's replaced
                     blob_client = blob_service.get_blob_client(container=blob_container, blob=self.image_path)
                     blob_client.delete_blob()
+                    
             except Exception as err:
                 flash(err)
             self.image_path = filename

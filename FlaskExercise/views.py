@@ -2,14 +2,15 @@ from flask import render_template, redirect, request
 from FlaskExercise import app, db
 from FlaskExercise.forms import AnimalForm
 import FlaskExercise.models as models
-
+from FlaskExercise.models import Animal
 imageSourceUrl = 'https://'+ app.config['BLOB_ACCOUNT']  + '.blob.core.windows.net/' + app.config['BLOB_CONTAINER']  + '/'
 
 
 @app.route('/')
 @app.route('/home')
+
 def home():
-    animals = models.Animal.query.all()
+    animals = Animal.query.all()
     return render_template(
         'index.html',
         imageSource=imageSourceUrl,
